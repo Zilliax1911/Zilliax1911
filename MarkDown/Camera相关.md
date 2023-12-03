@@ -51,3 +51,32 @@ Bayer去马赛克是将这种拜耳原色阵列转换为最终图像的过程，
 
 
 记得看图像色深：https://zhuanlan.zhihu.com/p/157833222
+
+
+
+### 0902
+
+#### ISP流程解析
+
+![image-20230902123821905](C:\Users\LeeON\AppData\Roaming\Typora\typora-user-images\image-20230902123821905.png)
+
+- 光电转换好比做水桶接雨水
+  - 关键点：黑电平矫正（无光时coms芯片也会有电信号）
+  - 去噪声
+- 没有完美的矫正（进光量矫正LSC；镜头矫正）
+- 没有完美的sensor（BPC坏点处理）
+- 颜色的完美还原
+  - 感光元件sensor无法直接感知到颜色，只能感知到的时强度；
+  - 对Bayer CFA(color Filter Array)进行**Demosaicing**，使得单通道变3通道，得到彩色的CamRGB图像。
+  - CamRGB--->sRGB：CCM（Color Correction Matrix）
+  - WB（White Balance）：在让相机在不同的色温下拍摄图像中的白色都可呈现为白色。
+  - Gamma(Gamma Correction）【人眼对暗区更加敏感，不是线性的过程）
+- 记录视场中更多的信息
+  - AF（自动对焦）Auto Focus
+  - AES（自动曝光控制）Automatic Exposure Control
+  - HDR（高动态范围）High Dynamic Range
+
+<img src="C:\Users\LeeON\AppData\Roaming\Typora\typora-user-images\image-20230902131101707.png" alt="image-20230902131101707" style="zoom: 50%;" />
+
+> 你好，你可以看看《image sensors and signal processing for digital still cameras》这本书。
+
