@@ -1155,3 +1155,55 @@ Source: Conversation with Bing, 10/4/2023(1) C语言strcpy()函数：字符串�
 (3) strcpy()与strncpy()的区别 - CSDN博客. https://blog.csdn.net/qq_26093511/article/details/73338036 Accessed 10/4/2023.
 (4) strcpy_百度百科. https://baike.baidu.com/item/strcpy/5494519 Accessed 10/4/2023.
 (5) strcpy - cplusplus.com. https://cplusplus.com/reference/cstring/strcpy/ Accessed 10/4/2023.
+
+
+
+- 通用引用（Universal Reference）
+
+  - 通用引用是C++ 11 引入的一个特性，它的形式是T&& ，其中T是一个模板参数或者auto推导类型。通用引用即可以绑定右值（临时变量或者字面量）也可以绑定到左值。
+
+    - > template<typename T>
+      >
+      > void foo(T&& arg);	// arg 是一个通用引用
+
+  - 绑定规则:
+
+    - 如果一个左值传递给foo，T会被推导为左值引用类型，T&& 折叠为左值引用。
+    - 如果一个右值传递给foo，T会被推导为普通类型，T&& 保持为右值引用。
+
+  - 普通引用在使用时就会区分好是左值引用还是右值引用，使用int&或int&&
+
+    - 通用引用需要先定义模板或类型推导
+    - 通用引用还有折叠规则，普通引用没有
+
+  - 使用通用引用的目的：==完美转发==
+
+
+
+
+
+
+- 任务队列
+
+  - 在线程池中，任务队列是带执行任务的容器。通常用std::queue来实现。而任务本身是std::function<void()>类型的对象。
+
+  - 任务队列的定义：` std::queue<std::functional<void()>> tasks;`
+
+    - tasks是一个queue容器，用于存储任务；
+    - 每个任务是一个std::functional<void()>对象，表示一个无参数，无返回值的可调用对象;
+
+  - **std::functional<void()>的作用**
+
+    这是一个标准库中的一个通用函数包装器，它可以存储、复制和调用任何符合*void()*签名（无参数，无返回值）的可调用对象。具体如下：
+
+    1. 普通函数（无参数，无返回值）。
+    2. Lambda表达式（无参数，无返回值）。
+    3. 函数对象（重载了`operator()`的类，且无参数，无返回值）。
+    4. *std::bind*绑定的函数。
+
+
+
+- ` sring::find() 和 std::find() 区别	`
+  - string::find() 是 string类的成员函数，需要一个类成员对象来调用 `string.find()`
+  - **功能：**在当前字符串对象中查找子字符串或者字符，返回首次出现的位置的索引
+  - **返回值：**如果被找到，返回索引值(size_t类型)，如果没找到，返回`std::string::npos`。
